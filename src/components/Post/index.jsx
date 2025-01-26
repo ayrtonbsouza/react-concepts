@@ -12,17 +12,22 @@ export function Post() {
           </div>
         </div>
         <time title="26 de Janeiro às 16:59h" dateTime="2025-01-26 16:59:30">Publicado há 1h</time>
-        <div className={styles.content}>
-          <p>Fala galeraa 👋</p>
-          <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Ignite, trilha da Rocketseat. O nome do projeto é Feed 🚀</p>
-          <p>👉 <a href="#">jane.design/doctorcare</a></p>
-          <p>
-            <a href="#">#novoprojeto</a>{' '}
-            <a href="#">#nlw</a>{' '}
-            <a href="#">#rocketseat</a>
-          </p>
-        </div>
       </header>
+      <div className={styles.content}>
+        <p>Fala galeraa 👋</p>
+        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Ignite, trilha da Rocketseat. O nome do projeto é Feed 🚀</p>
+        <p>
+          👉{' '}
+          <a href="#">
+            jane.design/doctorcare
+          </a>
+        </p>
+        <p>
+          <a href="#">#novoprojeto</a>{' '}
+          <a href="#">#ignite</a>{' '}
+          <a href="#">#rocketseat</a>
+        </p>
+      </div>
     </article>
   )
 }
