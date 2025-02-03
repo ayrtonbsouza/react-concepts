@@ -1,35 +1,36 @@
 import styles from './Post.module.css';
 import { Comment } from '../Comment';
 import { Avatar } from '../Avatar';
+import PropTypes from 'prop-types';
+import { format, formatDistanceToNow } from 'date-fns'
+import { enUS } from 'date-fns/locale/en-US'
 
-export function Post(props) {
-  console.log('props:', props)
+export function Post({ author, content, publishedAt }) {
+  const { avatarUrl, name, role } = author;
+  
+  const formattedDateTitle = format(publishedAt, "LLLL d 'at' HH:mm", { locale: enUS })
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, { locale: enUS, addSuffix: true })
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://github.com/ayrtonbsouza.png" />
+          <Avatar src={avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Ayrton Souza</strong>
-            <span>Software Engineer</span>
+            <strong>{name}</strong>
+            <span>{role}</span>
           </div>
         </div>
-        <time title="26 de Janeiro às 16:59h" dateTime="2025-01-26 16:59:30">Publicado há 1h</time>
+        <time title={formattedDateTitle} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
       </header>
       <div className={styles.content}>
-        <p>Fala galeraa 👋</p>
-        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Ignite, trilha da Rocketseat. O nome do projeto é Feed 🚀</p>
-        <p>
-          👉{' '}
-          <a href="#">
-            jane.design/doctorcare
-          </a>
-        </p>
-        <p>
-          <a href="#">#novoprojeto</a>{' '}
-          <a href="#">#ignite</a>{' '}
-          <a href="#">#rocketseat</a>
-        </p>
+        {content.map(line => {
+          if (line.type === 'paragraph') {
+            return <p key={line.content}>{line.content}</p>
+          } else if (line.type === 'link') {
+            return <p key={line.content}><a href="#">{line.content}</a></p>
+          }
+        })}
       </div>
       <form className={styles.commentForm}>
         <strong>Leave your comment</strong>
@@ -45,4 +46,14 @@ export function Post(props) {
       </div>
     </article>
   )
+}
+
+Post.propTypes = {
+  author: PropTypes.shape({
+    avatarUrl: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired
+  }),
+  content: PropTypes.array.isRequired,
+  publishedAt: PropTypes.instanceOf(Date).isRequired
 }
