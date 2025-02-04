@@ -4,12 +4,18 @@ import { Avatar } from '../Avatar';
 import PropTypes from 'prop-types';
 import { format, formatDistanceToNow } from 'date-fns'
 import { enUS } from 'date-fns/locale/en-US'
+import {useState} from 'react';
 
 export function Post({ author, content, publishedAt }) {
   const { avatarUrl, name, role } = author;
-  
+  const [comments, setComments] = useState([])
   const formattedDateTitle = format(publishedAt, "LLLL d 'at' HH:mm", { locale: enUS })
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, { locale: enUS, addSuffix: true })
+
+  function handleCreateNewComment(event) {
+    event.preventDefault();
+    setComments([...comments, comments.length + 1]);
+  }
 
   return (
     <article className={styles.post}>
@@ -32,7 +38,7 @@ export function Post({ author, content, publishedAt }) {
           }
         })}
       </div>
-      <form className={styles.commentForm}>
+      <form className={styles.commentForm} onSubmit={handleCreateNewComment}>
         <strong>Leave your comment</strong>
         <textarea placeholder="Leave your comment" />
         <footer>
@@ -40,9 +46,7 @@ export function Post({ author, content, publishedAt }) {
         </footer>
       </form>
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map(comment => <Comment key={comment} />)}
       </div>
     </article>
   )
