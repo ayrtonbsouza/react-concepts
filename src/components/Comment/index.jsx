@@ -1,26 +1,30 @@
 import { PropTypes } from 'prop-types';
-import {ThumbsUp, Trash} from 'phosphor-react';
+import { ThumbsUp, Trash } from 'phosphor-react';
 import styles from './Comment.module.css';
 import { Avatar } from '../Avatar';
 
-export function Comment({ content, key }) {
+export function Comment({ content, onDeleteComment }) {
+  function handleDeleteComment() {
+    onDeleteComment(content)
+  }
+
   return (
-    <div className={styles.comment} key={key}>
+    <div className={styles.comment}>
       <Avatar hasBorder={false} src="https://github.com/erikarg.png" />
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
           <header>
             <div className={styles.authorAndTime}>
               <strong>Érika Rocha</strong>
-              <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:30">Cerca de 1h atrás</time>
+              <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:30">
+                Cerca de 1h atrás
+              </time>
             </div>
-            <button title="Deletar comentário">
+            <button onClick={handleDeleteComment} title="Delete comment">
               <Trash size={24} />
             </button>
           </header>
-          <p>
-            {content}
-          </p>
+          <p>{content}</p>
         </div>
         <footer>
           <button>
@@ -30,10 +34,10 @@ export function Comment({ content, key }) {
         </footer>
       </div>
     </div>
-  )
+  );
 }
 
 Comment.propTypes = {
-  content: PropTypes.string,
-  key: PropTypes.number
-}
+  content: PropTypes.string.isRequired,
+  onDeleteComment: PropTypes.func.isRequired
+};
